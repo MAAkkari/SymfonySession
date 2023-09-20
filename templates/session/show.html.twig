@@ -4,7 +4,24 @@
 
 {% block body %}
 
-<h1>Details de la Session {{session.Intitule}}</h1>
+
+{% set interval = session.fin|date('U') - session.debut|date('U') %}
+{% set months = interval / 2678400 %} 
+{% set days = interval % 2678400 / 86400 %} 
+
+
+
+<h1>Details de la Session : {{session.Intitule}}</h1>
+<h2>Information</h2>
+<p>Formateur : {{session.formateur}} </p>
+<p>Formation : {{session.formation}} </p>
+
+{% if months>=1 %}
+    <p>durée : {{months|round(0, 'floor')}} mois et {{ days|round(0, 'floor')}} jours </p>
+{% else %}
+    <p>durée : {{ days|round(0, 'floor')}} jours </p>
+{% endif %}
+
 <h2>programme</h2>
 <table>
     <thead>

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Stagiaires{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter un Stagiaire</h1>
+    
+    {{ form_start(formAddSession) }}
+    
+        {{form_row(formAddSession.formation)}}
+        {{form_row(formAddSession.intitule)}}
+        {{form_row(formAddSession.formateur)}}
+        {{form_row(formAddSession.debut)}}
+        {{form_row(formAddSession.fin)}}
+        {{form_row(formAddSession.Places)}}
+        {{form_row(formAddSession.stagiaires)}}
+        
+    {{form_end(formAddSession) }}
+    
+
+{% endblock %}

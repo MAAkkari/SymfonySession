@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Session;
 use App\Entity\Stagiaire;
 use App\Form\StagiaireType;
 use App\Repository\StagiaireRepository;
@@ -34,11 +35,17 @@ class StagiaireController extends AbstractController
  	$form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid() ){ // si le form est submit et qu'il est valide
             $stagiaire = $form->getData(); //on met les info dans l'entité stagiaire crée plus haut
-            dd($stagiaire);
+            
+            
+           
+            foreach($stagiaire->getSessions() as $session) {
+                $session->addStagiaire($stagiaire);
+                $entityManager->persist($session);
+               
+            }
             $entityManager->persist($stagiaire); // prepare en pdo
-            foreach() 
             $entityManager->flush(); // execute en pdo
-
+            
             return $this->redirectToRoute('app_stagiaire');
         }
 
