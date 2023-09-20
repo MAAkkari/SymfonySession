@@ -4,13 +4,22 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <script src="https://kit.fontawesome.com/a0cb91d4d8.js" crossorigin="anonymous"></script>
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% endblock %}
 
         {% block javascripts %}
         {% endblock %}
     </head>
     <body>
+        <nav>
+            <ul>
+                <li><a href="{{path('app_home')}}">Acceuil</a></li>
+                <li><a href="{{path('app_session')}}">Liste Sessions</a></li>
+                <li><a href="{{path('app_stagiaire')}}">Liste Stagiaires</a></li>
+            </ul>
+        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>
