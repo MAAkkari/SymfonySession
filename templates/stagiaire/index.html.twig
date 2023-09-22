@@ -15,6 +15,8 @@
             <th>telephone</th>
             <th>Nb Session Prévues</th>
             <th>Détails</th>
+            <th>modifier</th>
+            <th>Supprimer</th>
         </tr>
     </thead>
     <tbody>
@@ -27,13 +29,16 @@
             <td> {{stagiaire.ville}} </td>
             <td> {{stagiaire.telephone}} </td>
             <td>{{stagiaire.sessions | length}}</td>
-            <td><a href="{{path('show_stagiaire',{'id':stagiaire.id})}}"><i class="fa-solid fa-circle-info"></i></a></td>
+            <td><a  style="color:green" href="{{path('show_stagiaire',{'id':stagiaire.id})}}"><i class="fa-solid fa-circle-info"></i></a></td>
+            <td><a style="color:orange" href="{{path('edit_stagiaire',{'id':stagiaire.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a></td>
+            <td> <a style="color:red" href="{{path('delete_stagiaire',{'id':stagiaire.id}) }}"><i class="fa-solid fa-x"></i></a></td>
         </tr>
 
         {% endfor %}
 
     <tbody>
 </table>
-    
+    <br>
+    <a href="{{ path('new_stagiaire') }}">Ajouter une stagiaire</a>
 
 {% endblock %}

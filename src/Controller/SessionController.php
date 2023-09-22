@@ -29,7 +29,7 @@ class SessionController extends AbstractController
 #[Route('/session/{id}/edit', name: 'edit_session')] // si on veux rajouter l'edition
 public function new_edit(session $session =null ,Request $request , EntityManagerInterface $entityManager):Response {
 
-if(!$session ){$session = new session(); //////////// crée une nouvelle session ( un objet pas dans la bdd ) } // si on veux rajouter l'edition sinon on enleve le if mais on garde l'interrieur
+if(!$session){$session = new session(); } //////////// crée une nouvelle session ( un objet pas dans la bdd )  // si on veux rajouter l'edition sinon on enleve le if mais on garde l'interrieur
     
     $form = $this->createForm(SessionType::class, $session); ////// ( crée le formulaire )
 
@@ -51,7 +51,14 @@ $form->handleRequest($request);
     return $this->render('Session/new.html.twig',[  //////// ( envoie du form dans la vue ) 
         'formAddSession'=> $form  ,
     ]);
-} }
+} 
+
+    #[Route('/session/{id}/delete', name: 'delete_session')]
+    public function delete(Session $session , EntityManagerInterface $em ){
+        $em->remove($session);
+        $em->flush();
+        return $this->redirectToRoute('app_session');
+    }
 
 
     #[Route('/session/{id}', name: 'show_session')]

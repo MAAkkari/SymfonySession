@@ -28,7 +28,7 @@ class StagiaireController extends AbstractController
     #[Route('/stagiaire/{id}/edit', name: 'edit_stagiaire')] // rajouter l'edition 
     public function new_edit(stagiaire $stagiaire =null ,Request $request , EntityManagerInterface $entityManager):Response {
 
-	if(!$stagiaire ){$stagiaire = new stagiaire(); // crée un nouveau stagiaire ( un objet pas dans la bdd ) } // si on veux rajouter l'edition sinon on enleve le if mais on garde l'interrieur
+	if(!$stagiaire ){$stagiaire = new stagiaire(); } // crée un nouveau stagiaire ( un objet pas dans la bdd )  // si on veux rajouter l'edition sinon on enleve le if mais on garde l'interrieur
         
         $form = $this->createForm(StagiaireType::class, $stagiaire); // ( crée le formulaire )
 
@@ -53,8 +53,14 @@ class StagiaireController extends AbstractController
         return $this->render('stagiaire/new.html.twig',[  //////// ( envoie du form dans la vue ) 
             'formAddStagiaire'=> $form  ,
         ]);
-    } }
-    
+    } 
+    #[Route('/stagiaire/{id}/delete', name: 'delete_stagiaire')]
+    public function delete(Stagiaire $stagiaire , EntityManagerInterface $em){   
+        $em->remove($stagiaire);
+        $em->flush();
+        return $this->redirectToRoute('app_stagiaire');
+
+    }
 
     #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
     public function show(Stagiaire $stagiaire , StagiaireRepository $sr): Response
