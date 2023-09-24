@@ -15,7 +15,7 @@ class ProgrammeType extends AbstractType
         $builder
             ->add('jours')
             ->add('module')
-            ->add('Valider', SubmitType::class) 
+            ->add('Valider', SubmitType::class)
         ;
     }
 

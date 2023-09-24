@@ -23,11 +23,15 @@
 {% endif %}
 
 <h2>programme</h2>
+
 <table>
     <thead>
         <tr>
             <th>Module</th>
+            <th>categorie</th>
             <th>Nb jours</th>
+            <th>supprimer</th>
+
         </tr>
     </thead>
     <tbody>
@@ -37,11 +41,14 @@
             <td>{{programme.module.nom}} </td>
             <td>{{programme.module.categorie.nom}} </td>
             <td><p>{{programme.jours}} jours</p></td>
+            <td><a href="{{path('delete_programme',{'id':programme.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
         </tr>
 
         {% endfor %}
+        
     <tbody>
 </table>
+<a href="{{path('new_programme',{'id':session.id})}}">ajouter un Module</a>
 <h2>participants</h2>
 {% for stagiaire in session.stagiaires %}
     <a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.prenom}} {{stagiaire.nom}}</a> <br> 

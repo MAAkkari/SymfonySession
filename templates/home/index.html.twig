@@ -4,4 +4,28 @@
 
 {% block body %}
 <h1>Bienvenue</h1>
+
+<h2>Sessions en cour</h2>
+{% set currentDateTime = "now"|date %}
+{% for session in enCour %}
+    {% set difference = session.fin|date('U') - currentDateTime|date('U') %}
+    {% set difference = difference / 86400 %}
+    {% set difference = difference|round(0, 'ceil') %}
+
+    <p><a href="{{path('show_session',{'id':session.id})}}">{{session.intitule}}</a>  du {{session.debut|date('d-m-Y')}}  au {{session.fin|date('d-m-Y')}} (fini dans:{{difference}} jours  )</p>
+{% endfor %}
+
+
+<h2>Session avenir</h2>
+{% for session in aVenir %}
+    {% set difference = session.debut|date('U') - currentDateTime|date('U')   %}
+    {% set difference = difference / 86400 %}
+    {% set difference = difference|round(0, 'ceil') %}
+    <p><a href="{{path('show_session',{'id':session.id})}}">{{session.intitule}}</a>  du {{session.debut|date('d-m-Y')}}  au {{session.fin|date('d-m-Y')}} ( commence dans:{{difference}} jours)</p>
+{% endfor %}
+
+<h2>Sessions Fini</h2>
+{% for session in fini %}
+    <p><a href="{{path('show_session',{'id':session.id})}}">{{session.intitule}}</a>  du {{session.debut|date('d-m-Y')}}  au {{session.fin|date('d-m-Y')}}</p>
+{% endfor %}
 {% endblock %}

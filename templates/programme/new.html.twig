@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Module{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter un Module</h1>
+    
+    {{ form_start(formAddProgramme) }}
+    
+        {{form_row(formAddProgramme.jours)}}
+        {{form_row(formAddProgramme.module)}}
+      
+   
+    {{form_end(formAddProgramme) }}
+    
+
+{% endblock %}

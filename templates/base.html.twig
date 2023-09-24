@@ -13,11 +13,18 @@
         {% endblock %}
     </head>
     <body>
-        <nav>
-            <ul>
-                <li><a href="{{path('app_home')}}">Acceuil</a></li>
-                <li><a href="{{path('app_session')}}">Liste Sessions</a></li>
-                <li><a href="{{path('app_stagiaire')}}">Liste Stagiaires</a></li>
+        <nav >
+            <ul style="display:flex ; column-gap: 30px">
+                {% if is_granted("ROLE_ADMIN", object = null , field= null ) %}
+                    <li><a href="{{path('app_home')}}">Acceuil</a></li>
+                    <li><a href="{{path('app_session')}}">Sessions</a></li>
+                    <li><a href="{{path('app_stagiaire')}}">Stagiaires</a></li>
+                    <li><a href="{{path('app_formation')}}">formations</a></li>
+                    <li><a href="{{path('app_page_admin')}}">pannel Admin</a></li>
+                    <li><a href="{{path('app_register')}}">nouveau compte</a></li>
+                    <li><a href="{{path('app_logout')}}">deconnexion</a></li>
+                {% endif %}
+                
             </ul>
         </nav>
         {% block body %}{% endblock %}
