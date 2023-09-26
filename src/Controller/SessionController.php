@@ -8,6 +8,7 @@ use App\Entity\Programme;
 use App\Form\SessionType;
 use App\Repository\SessionRepository;
 use App\Repository\ProgrammeRepository;
+use App\Repository\StagiaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,13 +63,25 @@ $form->handleRequest($request);
 
 
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session , SessionRepository $sr , ProgrammeRepository $pr): Response
+    public function show(Session $session , SessionRepository $sr , ProgrammeRepository $pr ,EntityManagerInterface $entityManager , StagiaireRepository $StagiaireRepo): Response
     {
         $programmes= $pr->findBy(
             ['session' => $session]
         );
 
-        //trie des modules par categorie , en definitant la fonction de trie a l'interrieur du usort 
+        $sessionId=$session->getId();
+
+        
+
+        $dql = "SELECT s FROM App\Entity\Stagiaire s
+                WHERE :sessionId NOT MEMBER OF s.sessions";
+
+        $query = $entityManager->createQuery($dql);
+        $query->setParameter('sessionId', $sessionId);
+
+        $stagiaires = $query->getResult();
+
+        //trie des modules par categorie , en definisant la fonction de trie a l'interrieur du usort 
         usort($programmes,  function ( Programme $a, Programme $b) {
             if ($a->getModule()->getCategorie()->getNom() == $b->getModule()->getCategorie()->getNom()) {
                 return 0;
@@ -80,7 +93,8 @@ $form->handleRequest($request);
 
         return $this->render('session/show.html.twig', [
             'session' => $sr->find($session->getId()),
-            'programmes'=> $programmes
+            'programmes'=> $programmes,
+            'stagiaires'=>$stagiaires
         ]);
     }
 }

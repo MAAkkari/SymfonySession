@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Entity\Stagiaire;
 use App\Form\StagiaireType;
+use App\Repository\SessionRepository;
 use App\Repository\StagiaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 
 class StagiaireController extends AbstractController
 {
@@ -61,14 +63,32 @@ class StagiaireController extends AbstractController
         return $this->redirectToRoute('app_stagiaire');
 
     }
+   
 
+    
+    #[Route('/stagiaire/{id1}/{id2}/addSession', name: 'addSession_stagiaire')]
+public function addSession( Request $request,StagiaireRepository $StagiaireRepo, SessionRepository $sr, EntityManagerInterface $entityManager)
+{
+
+    $id1 = $request->attributes->get('id1');
+    $id2 = $request->attributes->get('id2');
+    
+    $session = $sr->find($id2);
+    $stagiaire = $StagiaireRepo->find($id1);
+    $stagiaire->addSession($session);
+    $entityManager->persist($stagiaire);
+    $entityManager->flush();
+    return $this->redirectToRoute('show_session', ['id' => $id2]);
+    
+    
+}
+    
     #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
     public function show(Stagiaire $stagiaire , StagiaireRepository $sr): Response
     {   
-        
         return $this->render('stagiaire/show.html.twig', [
             'stagiaire'=>$sr->find($stagiaire->getId()),
             
         ]);
-    }
+    } 
 }

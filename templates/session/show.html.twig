@@ -54,6 +54,13 @@
     <a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.prenom}} {{stagiaire.nom}}</a> <br> 
 {% endfor %}
 
+<h2>Stagiaires non participants</h2>
+{% for stagiaire in stagiaires %}
+
+    <p><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.prenom}} {{stagiaire.nom}}</a>  <a href="{{ path('addSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}">+</a></p> 
+
+{% endfor %}
+
 
 
 

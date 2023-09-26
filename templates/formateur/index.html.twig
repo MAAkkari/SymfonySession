@@ -1,20 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FormateurController!{% endblock %}
+{% block title %}liste des formateurs{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<h1>Liste des formateurs</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Prenom</th>
+            <th>Nom</th>
+            <th>Nb formations total</th>
+            <th>Nb formations en cour</th>
+            <th>info</th>
+            <th>edit</th>
+            <th>supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set currentDate = "now"|date('Y-m-d') %}
+        {% for formateur in formateurs %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {% set x = 0 %}
+        {% for session in formateur.sessions %}
+    
+        
+            {% if session.fin|date('Y-m-d') >= currentDate|date('Y-m-d') and session.debut|date('Y-m-d') <= currentDate|date('Y-m-d') %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/laragon/www/SymfonySession/src/Controller/FormateurController.php'|file_link(0) }}">src/Controller/FormateurController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/laragon/www/SymfonySession/templates/formateur/index.html.twig'|file_link(0) }}">templates/formateur/index.html.twig</a></code></li>
-    </ul>
-</div>
+                {% set x = x + 1 %}
+                
+            {% endif %}
+        {% endfor %}
+        <tr>
+            <td>{{formateur.prenom}} </td>
+            <td>{{formateur.nom}}</td>
+            <td>{{formateur.sessions|length}}</td>
+            <td>{{x}}</td>
+           
+            <td><a style="color:green" href="{{path('show_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-circle-info"></i></a></td>
+            <td><a style="color:orange" href=""><i class="fa-solid fa-pen-to-square"></i></a></td>
+            <td> <a style="color:red" href=""><i class="fa-solid fa-x"></i></a></td>
+        </tr>
+       
+        {% endfor %}
+    <tbody>
+</table>
+<br>
+<a style="color:green" href="">Ajouter un formateur</a>
+
+
 {% endblock %}
+    
+
+
