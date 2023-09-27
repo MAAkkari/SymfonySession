@@ -16,7 +16,7 @@
 {% endfor %}
 
 
-<h2>Session avenir</h2>
+<h2>Session a venir</h2>
 {% for session in aVenir %}
     {% set difference = session.debut|date('U') - currentDateTime|date('U')   %}
     {% set difference = difference / 86400 %}

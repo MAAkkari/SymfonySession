@@ -2,28 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Programme;
+use App\Entity\Formateur;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-class ProgrammeType extends AbstractType
+class FormateurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('jours')
-            ->add('module',IntegerType::class)
-            ->add('Valider', SubmitType::class)
+            ->add('nom')
+            ->add('prenom')
+            ->add('Valider', SubmitType::class) 
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Programme::class,
+            'data_class' => Formateur::class,
         ]);
     }
 }

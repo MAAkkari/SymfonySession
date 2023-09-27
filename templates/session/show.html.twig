@@ -48,10 +48,21 @@
         
     <tbody>
 </table>
+
+
+
+
+<h2>Programmes non Présent dans cette session</h2>
+
+{% for module in NonProgrammes %}
+        {{ module.nom }}
+{% endfor %}
+
+
 <a href="{{path('new_programme',{'id':session.id})}}">ajouter un Module</a>
 <h2>participants</h2>
 {% for stagiaire in session.stagiaires %}
-    <a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.prenom}} {{stagiaire.nom}}</a> <br> 
+   <p><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.prenom}} {{stagiaire.nom}}</a>  <a style ='color:red'href="{{ path('removeSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}">x</a></p> 
 {% endfor %}
 
 <h2>Stagiaires non participants</h2>
@@ -61,7 +72,18 @@
 
 {% endfor %}
 
+<h2>Materiel Nécessaire</h2>
+{% for utiliser in session.utilisers %}
+    <p> <a href="{{ path('diminuer_utiliser',{'id':utiliser.id}) }}">-</a>  {{utiliser.materiel}} {{utiliser.qtt}} <a href="{{ path('augmenter_utiliser',{'id':utiliser.id}) }}">+</a>  <a href="{{path('remove_utiliser',{'id':utiliser.id} )}}"><i class="fa-solid fa-trash"></i></a></p>
+{% endfor %}
 
+{{ form_start(formAddUtiliser) }}
+    
+        {{form_row(formAddUtiliser.materiel)}}
+        {{form_row(formAddUtiliser.qtt)}}
+        {{form_row(formAddUtiliser.Valider)}}
+        
+{{form_end(formAddUtiliser) }}
 
 
 {% endblock %}

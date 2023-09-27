@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste de tout le materiel necessaire{% endblock %}
+
+{% block body %}
+<h2>Materiel En cour D'utilisation</h2>
+{% for materiel in materiels %}
+    {% for utiliser in materiel.utilisers %}
+        {% if utiliser. %}
+            
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+{% endblock %}

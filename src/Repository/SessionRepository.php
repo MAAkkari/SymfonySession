@@ -21,6 +21,50 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
+    public function findNonInscrits($session_id){
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qd = $sub;
+        $qd->select('s')
+            ->from('App\Entity\Stagiaire', 's')
+            ->leftJoin('s.sessions','se')
+            ->where('se.id =:id');
+
+        $sub = $em->createQueryBuilder();
+        //selectionner tout les stagiaires qui ne sont pas dans le resultat precedent donc tout ceux non inscrit a cette session
+        $sub->select('st')
+        ->from('App\Entity\Stagiaire','st')
+        ->where($sub->expr()->notIn('st.id', $qd->getDQL()))
+        ->setParameter('id', $session_id)
+        ->orderBy('st.nom');
+
+        $query=$sub->getQuery();
+        return $query->getResult();
+
+    }
+
+    public function findNonProgrammes($session_id) {
+        $em = $this->getEntityManager();
+    
+        // Subquery to select all "Programme" entities associated with the given session_id
+        $qd = $em->createQueryBuilder();
+        $qd->select('m')
+            ->from('App\Entity\Module', 'm')
+            ->leftJoin('m.programmes', 'pr')
+            ->where('pr.session = :id')
+            ->setParameter('id', $session_id);
+    
+        // Main query to select all "Programme" entities that are not in the subquery result
+        $sub = $em->createQueryBuilder();
+        $sub->select('mod')
+            ->from('App\Entity\Module', 'mod')
+            ->where($sub->expr()->notIn('mod.id', $qd->getDQL()))
+            ->setParameter('id', $session_id);
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+    
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

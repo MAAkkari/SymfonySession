@@ -38,13 +38,6 @@ class StagiaireController extends AbstractController
         if($form->isSubmitted() && $form->isValid() ){ // si le form est submit et qu'il est valide
             $stagiaire = $form->getData(); //on met les info dans l'entité stagiaire crée plus haut
             
-            
-           
-            foreach($stagiaire->getSessions() as $session) {
-                $session->addStagiaire($stagiaire);
-                $entityManager->persist($session);
-               
-            }
             $entityManager->persist($stagiaire); // prepare en pdo
             $entityManager->flush(); // execute en pdo
             
@@ -66,21 +59,32 @@ class StagiaireController extends AbstractController
    
 
     
-    #[Route('/stagiaire/{id1}/{id2}/addSession', name: 'addSession_stagiaire')]
+#[Route('/stagiaire/{id1}/{id2}/addSession', name: 'addSession_stagiaire')]
 public function addSession( Request $request,StagiaireRepository $StagiaireRepo, SessionRepository $sr, EntityManagerInterface $entityManager)
 {
 
     $id1 = $request->attributes->get('id1');
     $id2 = $request->attributes->get('id2');
-    
     $session = $sr->find($id2);
     $stagiaire = $StagiaireRepo->find($id1);
     $stagiaire->addSession($session);
     $entityManager->persist($stagiaire);
     $entityManager->flush();
     return $this->redirectToRoute('show_session', ['id' => $id2]);
-    
-    
+}
+
+#[Route('/stagiaire/{id1}/{id2}/removeSession', name: 'removeSession_stagiaire')]
+public function removeSession( Request $request,StagiaireRepository $StagiaireRepo, SessionRepository $sr, EntityManagerInterface $entityManager)
+{
+
+    $id1 = $request->attributes->get('id1');
+    $id2 = $request->attributes->get('id2');
+    $session = $sr->find($id2);
+    $stagiaire = $StagiaireRepo->find($id1);
+    $stagiaire->removeSession($session);
+    $entityManager->persist($stagiaire);
+    $entityManager->flush();
+    return $this->redirectToRoute('show_session', ['id' => $id2]);
 }
     
     #[Route('/stagiaire/{id}', name: 'show_stagiaire')]

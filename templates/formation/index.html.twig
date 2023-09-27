@@ -21,9 +21,9 @@
         {% endif %}
     {% endfor %}
 
-    <p><a href="{{path('show_formation',{'id':formation.id})}}">{{ formation.nom}}</a> ({{formation.sessions|length}} sessions a ce jour) ({{ x }} sessions en cour )</p> 
+    <p><a href="{{path('show_formation',{'id':formation.id})}}">{{ formation.nom}}</a> ({{formation.sessions|length}} sessions a ce jour) ({{ x }} sessions en cour ) <a style="color:orange" href="{{path('edit_formation',{'id':formation.id})}}"><i class="fa-solid fa-pen-to-square"></i></a> <a style="color:red" href="{{path('delete_formation',{'id':formation.id})}}"><i class="fa-solid fa-x"></i></a></p> 
     
 {% endfor %}
 
-
+<a href="{{path('new_formation')}}">Ajouter une formation</a>
 {% endblock %}

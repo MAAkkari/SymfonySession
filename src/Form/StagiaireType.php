@@ -20,7 +20,7 @@ class StagiaireType extends AbstractType
             ->add('ville')
             ->add('telephone')
             ->add('mail')
-            ->add('sessions')
+           
             ->add('Valider', SubmitType::class)
         ;
     }

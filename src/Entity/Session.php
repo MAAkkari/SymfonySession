@@ -42,10 +42,14 @@ class Session
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: Programme::class, orphanRemoval: true)]
     private Collection $programmes;
 
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Utiliser::class, orphanRemoval: true)]
+    private Collection $utilisers;
+
     public function __construct()
     {
         $this->stagiaires = new ArrayCollection();
         $this->programmes = new ArrayCollection();
+        $this->utilisers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -180,5 +184,35 @@ class Session
     }
     public function __toString(){
         return $this->intitule;
+    }
+
+    /**
+     * @return Collection<int, Utiliser>
+     */
+    public function getUtilisers(): Collection
+    {
+        return $this->utilisers;
+    }
+
+    public function addUtiliser(Utiliser $utiliser): static
+    {
+        if (!$this->utilisers->contains($utiliser)) {
+            $this->utilisers->add($utiliser);
+            $utiliser->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUtiliser(Utiliser $utiliser): static
+    {
+        if ($this->utilisers->removeElement($utiliser)) {
+            // set the owning side to null (unless already changed)
+            if ($utiliser->getSession() === $this) {
+                $utiliser->setSession(null);
+            }
+        }
+
+        return $this;
     }
 }
