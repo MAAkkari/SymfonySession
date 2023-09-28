@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Type de materiel{% endblock %}
+
+{% block body %}
+
+    <h1>Ajouter un Type de materiel</h1>
+    
+    {{ form_start(formAddMateriel) }}   
+        {{form_row(formAddMateriel.nom)}} 
+        {{form_row(formAddMateriel.qtt)}}
+        {{form_row(formAddMateriel.Valider)}}
+    {{form_end(formAddMateriel) }}
+    
+
+{% endblock %}

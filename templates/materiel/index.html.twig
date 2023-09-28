@@ -1,14 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste de tout le materiel necessaire{% endblock %}
+{% block title %}Inventaire du materiel{% endblock %}
 
 {% block body %}
-<h2>Materiel En cour D'utilisation</h2>
-{% for materiel in materiels %}
-    {% for utiliser in materiel.utilisers %}
-        {% if utiliser. %}
-            
-        {% endif %}
-    {% endfor %}
-{% endfor %}
+<table>
+    <thead>
+        <tr>
+            <th>Materiel</th>
+            <th>Qtt en cour d'utilisation</th>
+            <th>Qtt necessaire pour les futur sessions</th>
+            <th>Qtt Total disponible</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        {% set currentDate = "now"|date('Y-m-d') %}
+        
+        {% for materiel in materiels %}
+        {% set enCour = 0 %}
+        {% set besoin = 0 %}
+            {% for utiliser in materiel.utilisers %}
+                {% if utiliser.session.fin|date('Y-m-d') >= currentDate|date('Y-m-d') and utiliser.session.debut|date('Y-m-d') <= currentDate|date('Y-m-d') %}
+                    {% set enCour = enCour + utiliser.qtt %}
+                {% elseif utiliser.session.debut|date('Y-m-d') > currentDate|date('Y-m-d') %}
+                    {% set besoin = besoin + utiliser.qtt %}
+                {% endif %}
+            {% endfor %}
+
+        <tr>
+            <td> {{materiel.nom}} </td>
+            <td> {{enCour}} </td>
+            <td> {{besoin}} </td>
+        </tr>
+
+        {% endfor %}
+
+    <tbody>
+</table>
 {% endblock %}

@@ -56,6 +56,10 @@
 
 {% for module in NonProgrammes %}
         {{ module.nom }}
+        <form action="{{ path('add_module', {'id':session.id, 'module':module.id}) }}" method="post">
+            <input class="duree" type="number" name="duree" value="1" min="1"> 
+            <input type="submit" name="submit" >
+        </form><br>
 {% endfor %}
 
 

@@ -6,6 +6,7 @@ use App\Entity\Materiel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MaterielType extends AbstractType
 {
@@ -13,6 +14,7 @@ class MaterielType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('qtt')
             ->add('Valider', SubmitType::class)
         ;
     }

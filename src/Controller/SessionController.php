@@ -65,25 +65,36 @@ $form->handleRequest($request);
         return $this->redirectToRoute('app_session');
     }
 
+    #[Route('/session/addModule/{id}/{module}', name: 'add_module')]
+    public function addModule(Session $session, Module $module, Request $request, EntityManagerInterface $entityManager)
+    {
+        $nbJours = $request->request->get('duree');
+        if($nbJours != null) { 
+            $programme = new Programme();
+            // On ajoute le programme à la session et la session au programme
+            $programme->setSession($session);
+            // On ajoute le module au programme et le programme au module
+            $programme->setModule($module);
+            // On ajoute le nombre de jours au programme
+            $programme->setJours($nbJours);
+
+            // Persiste les modifications
+            $entityManager->persist($programme);
+            // Enregistre les modifications
+            $entityManager->flush();
+
+            // Message flash de succès
+            $this->addFlash('success', 'Ajout du Module Reussi');
+        }
+        return $this->redirectToRoute('show_session', ['id' => $session->getId()]);
+    }
+
 
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session ,ModuleRepository $mr, SessionRepository $sr , ProgrammeRepository $pr ,EntityManagerInterface $entityManager ,Request $request, StagiaireRepository $StagiaireRepo): Response
     {
-        $programme = new programme();
-        $form2 = $this->createForm(ProgrammeType::class, $programme); // ( crée le formulaire )
+        
         $id=$session->getId();
-        $form2->handleRequest($request);
-        if ($form2->isSubmitted() && $form2->isValid() ){ // si le form est submit et qu'il est valide
-            $programme = $form2->getData(); //on met les info dans l'entité programme crée plus haut
-            $programme->setSession($session);
-            $programme->setModule($mr->find($id));
-            $entityManager->persist($programme); // prepare en pdo
-            $entityManager->flush(); // execute en pdo
-            return $this->redirectToRoute('show_session', ['id' => $id]);
-        }
-
-
-
         $utiliser = new Utiliser();
         $form = $this->createForm(UtiliserType::class, $utiliser);
         $form->handleRequest($request);
@@ -136,8 +147,7 @@ $form->handleRequest($request);
             'programmes'=> $programmes,
             'NonProgrammes'=> $NonProgrammes,
             'stagiaires'=>$stagiaires,
-            'formAddUtiliser'=>$form,
-            'formAddProgramme'=>$form2
+            'formAddUtiliser'=>$form
         ]);
     }
 }

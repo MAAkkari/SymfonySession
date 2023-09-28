@@ -21,6 +21,9 @@ class Materiel
     #[ORM\OneToMany(mappedBy: 'materiel', targetEntity: Utiliser::class, orphanRemoval: true)]
     private Collection $utilisers;
 
+    #[ORM\Column]
+    private ?int $qtt = null;
+
     public function __construct()
     {
         $this->utilisers = new ArrayCollection();
@@ -74,5 +77,17 @@ class Materiel
     }
     public function __toString(){
         return $this->nom;
+    }
+
+    public function getQtt(): ?int
+    {
+        return $this->qtt;
+    }
+
+    public function setQtt(int $qtt): static
+    {
+        $this->qtt = $qtt;
+
+        return $this;
     }
 }
