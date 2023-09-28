@@ -5,15 +5,18 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
-{
+{   
+    #[Route('/', name: 'app_home')]
     #[Route('/home', name: 'app_home')]
-    public function index(SessionRepository $sr , EntityManagerInterface $em): Response
+    public function index(SessionRepository $sr ,Security $security, EntityManagerInterface $em): Response
     {
+       
         $dateActuelle = new \DateTime();
 
         $fini = $em
@@ -46,5 +49,6 @@ class HomeController extends AbstractController
             'enCour'=>$enCour,
             'aVenir'=>$aVenir
         ]);
+    
     }
 }

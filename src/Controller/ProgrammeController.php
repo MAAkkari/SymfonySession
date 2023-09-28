@@ -34,6 +34,7 @@ class ProgrammeController extends AbstractController
             $programme->setSession($session);
             $entityManager->persist($programme); // prepare en pdo
             $entityManager->flush(); // execute en pdo
+            $this->addFlash("success","ajout du module a la session avec succes");
             return $this->redirectToRoute('show_session', ['id' => $id]);
         }
 
@@ -48,6 +49,7 @@ class ProgrammeController extends AbstractController
         $id=$programme->getSession()->getId();   
         $em->remove($programme);
         $em->flush();
+        $this->addFlash("success","suppression du module de la session avec succes");
         return $this->redirectToRoute('show_session', ['id' => $id]);
     }
 

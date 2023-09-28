@@ -41,16 +41,22 @@ if(!$session){$session = new session(); } //////////// crée une nouvelle sessio
 $form->handleRequest($request);
     if($form->isSubmitted() && $form->isValid() ){ // si le form est submit et qu'il est valide
         $session = $form->getData(); //on met les info dans l'entité session crée plus haut
+        if ( count($session->getStagiaires()) > $session->getPlaces()){
+            $this->addFlash("error","nombre de place insuffisant par rapport au nombre de stagiaires");
+            return $this->redirectToRoute('new_session');
+        }else{
         foreach($session->getStagiaires() as $stagiaire) {
+            
             $stagiaire->addSession($session);
             $entityManager->persist($stagiaire);
            
+            return $this->redirectToRoute('app_session');
         }
         $entityManager->persist($session); // prepare en pdo 
         $entityManager->flush(); // execute en pdo
-
+        $this->addFlash("success","creation/modification de la session avec succes");
         return $this->redirectToRoute('app_session');
-    }
+    }}
 
 
     return $this->render('Session/new.html.twig',[  //////// ( envoie du form dans la vue ) 
@@ -62,6 +68,7 @@ $form->handleRequest($request);
     public function delete(Session $session, Request $request, EntityManagerInterface $em ){
         $em->remove($session);
         $em->flush();
+        $this->addFlash("success","suppression de la session avec succes");
         return $this->redirectToRoute('app_session');
     }
 
@@ -69,7 +76,18 @@ $form->handleRequest($request);
     public function addModule(Session $session, Module $module, Request $request, EntityManagerInterface $entityManager)
     {
         $nbJours = $request->request->get('duree');
-        if($nbJours != null) { 
+
+        $dateDebut = $session->getDebut();
+        $dateFin = $session->getFin();
+        $interval = $dateDebut->diff($dateFin);
+        $joursDifference = $interval->days;
+        $total=0;
+        foreach($session->getProgrammes() as $programme){
+            $total+=$programme->getJours();
+        }
+        if($joursDifference < $total+$nbJours){
+            $this->addFlash("error","le nombre de jours excede la durée total de la formation");
+        }elseif($nbJours != null) { 
             $programme = new Programme();
             // On ajoute le programme à la session et la session au programme
             $programme->setSession($session);
@@ -106,11 +124,19 @@ $form->handleRequest($request);
             $present = false;
             foreach($session->getUtilisers() as $utiliserSession ){
                 if ( $utiliserSession->getMateriel() == $utiliser->getMateriel() ){ 
+
                     $newQtt=$utiliserSession->getQtt() + $utiliser->getQtt();
-                    $utiliserSession->setQtt($newQtt);
-                    $entityManager->persist($utiliserSession); // prepare en pdo
-                    $entityManager->flush(); // execute en pdo
-                    $present= true;
+                    
+                    if($newQtt > $utiliser->getMateriel()->getQtt()){
+                        $this->addFlash("error","la Quantité de  ''".$utiliser->getMateriel()->getNom()."'' est insuffisante");
+                        return $this->redirectToRoute('show_session', ['id' => $id]);
+                    }else{
+                        $utiliserSession->setQtt($newQtt);
+                        $entityManager->persist($utiliserSession); // prepare en pdo
+                        $entityManager->flush(); // execute en pdo
+                        $present= true;
+                        $this->addFlash("success","ajout des ''".$utiliser->getMateriel()->getNom()."'' reussi ");
+                    }
                 }
             }
 
@@ -119,6 +145,7 @@ $form->handleRequest($request);
                 $utiliser->setSession($session);
                 $entityManager->persist($utiliser); // prepare en pdo
                 $entityManager->flush(); // execute en pdo
+                $this->addFlash("success","ajout des ''".$utiliser->getMateriel()->getNom()."'' reussi ");
             }
             return $this->redirectToRoute('show_session', ['id' => $id]);
         }

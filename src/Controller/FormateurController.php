@@ -34,7 +34,7 @@ class FormateurController extends AbstractController
             $formateur = $form->getData(); //on met les info dans l'entité formateur crée plus haut  
             $entityManager->persist($formateur); // prepare en pdo 
             $entityManager->flush(); // execute en pdo
-
+            $this->addFlash("success","ajout du formateur avec succes");
             return $this->redirectToRoute('app_formateur');
         }
 
@@ -47,6 +47,7 @@ class FormateurController extends AbstractController
     public function delete(Formateur $formateur , EntityManagerInterface $em){   
         $em->remove($formateur);
         $em->flush();
+        $this->addFlash("success","suppression du formateur avec succes");
         return $this->redirectToRoute('app_formateur');
     }
 

@@ -29,7 +29,7 @@ class StagiaireController extends AbstractController
     #[Route('/stagiaire/new', name: 'new_stagiaire')]
     #[Route('/stagiaire/{id}/edit', name: 'edit_stagiaire')] // rajouter l'edition 
     public function new_edit(stagiaire $stagiaire =null ,Request $request , EntityManagerInterface $entityManager):Response {
-
+        
 	if(!$stagiaire ){$stagiaire = new stagiaire(); } // crée un nouveau stagiaire ( un objet pas dans la bdd )  // si on veux rajouter l'edition sinon on enleve le if mais on garde l'interrieur
         
         $form = $this->createForm(StagiaireType::class, $stagiaire); // ( crée le formulaire )
@@ -40,6 +40,7 @@ class StagiaireController extends AbstractController
             
             $entityManager->persist($stagiaire); // prepare en pdo
             $entityManager->flush(); // execute en pdo
+            $this->addFlash("success","ajout/modification du stagiaire avec succes");
             
             return $this->redirectToRoute('app_stagiaire');
         }
@@ -53,6 +54,7 @@ class StagiaireController extends AbstractController
     public function delete(Stagiaire $stagiaire , EntityManagerInterface $em){   
         $em->remove($stagiaire);
         $em->flush();
+        $this->addFlash("success","suppression du stagiaire avec succes");
         return $this->redirectToRoute('app_stagiaire');
 
     }
@@ -67,9 +69,16 @@ public function addSession( Request $request,StagiaireRepository $StagiaireRepo,
     $id2 = $request->attributes->get('id2');
     $session = $sr->find($id2);
     $stagiaire = $StagiaireRepo->find($id1);
+    
+    if($session->getPlaces() > Count($session->getStagiaires())){
     $stagiaire->addSession($session);
     $entityManager->persist($stagiaire);
     $entityManager->flush();
+    $this->addFlash('success', 'Ajout du Stagiaire Reussi');
+    }else{
+        $this->addFlash("error", "Echec, la session est deja pleine");
+    }
+    
     return $this->redirectToRoute('show_session', ['id' => $id2]);
 }
 
@@ -81,9 +90,18 @@ public function removeSession( Request $request,StagiaireRepository $StagiaireRe
     $id2 = $request->attributes->get('id2');
     $session = $sr->find($id2);
     $stagiaire = $StagiaireRepo->find($id1);
-    $stagiaire->removeSession($session);
-    $entityManager->persist($stagiaire);
-    $entityManager->flush();
+    
+    if ($session && $stagiaire ){
+        $stagiaire->removeSession($session);
+        $entityManager->persist($stagiaire);
+        $entityManager->flush();
+        $this->addFlash("success","suppression du stagiaire de cette session avec succes");
+    }
+    else{
+        $this->addFlash("error","echec de la suppression");
+        return $this->redirectToRoute('app_session');
+    } 
+    
     return $this->redirectToRoute('show_session', ['id' => $id2]);
 }
     

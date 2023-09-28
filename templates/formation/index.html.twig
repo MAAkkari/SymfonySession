@@ -5,11 +5,21 @@
 {% block body %}
 {% set currentDate = "now"|date('Y-m-d') %}
 
-<h1>Liste des formations</h1>
-
-
-{% for formation in formations %}
-
+<h1 class="subtitle">Liste des formations</h1>
+<div class="table_btn_wrapper">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Intitulé</th>
+                <th>Sessions Totales</th>
+                <th>en cours</th>
+                <th>Actions</th>
+            
+            </tr>
+        </thead>
+        <tbody>
+            {% for formation in formations %}
+            
     {% set x = 0 %}
     {% for session in formation.sessions %}
    
@@ -20,10 +30,23 @@
             
         {% endif %}
     {% endfor %}
-
-    <p><a href="{{path('show_formation',{'id':formation.id})}}">{{ formation.nom}}</a> ({{formation.sessions|length}} sessions a ce jour) ({{ x }} sessions en cour ) <a style="color:orange" href="{{path('edit_formation',{'id':formation.id})}}"><i class="fa-solid fa-pen-to-square"></i></a> <a style="color:red" href="{{path('delete_formation',{'id':formation.id})}}"><i class="fa-solid fa-x"></i></a></p> 
+            <tr>
+                <td class="intitule"><a href="{{path('show_formation',{'id':formation.id})}}">{{ formation.nom}}</a></td>
+                <td>{{formation.sessions|length}}</td>
+                <td>{{x}}</td>
+                <td><a style="color:orange" href="{{path('edit_formation',{'id':formation.id})}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                     <a style="color:red" href="{{path('delete_formation',{'id':formation.id})}}"><i class="fa-solid fa-x"></i></a></td>
+                
+            
+               
+            </tr>
+        
+            {% endfor %}
+        <tbody>
+    </table>
     
-{% endfor %}
+    <a class="addBtn"  href="{{path('new_formation')}}">Ajouter</a>
+</div>
 
-<a href="{{path('new_formation')}}">Ajouter une formation</a>
+
 {% endblock %}

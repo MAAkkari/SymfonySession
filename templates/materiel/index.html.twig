@@ -3,13 +3,16 @@
 {% block title %}Inventaire du materiel{% endblock %}
 
 {% block body %}
-<table>
+<h1  class="subtitle">Inventaire du materiel</h1>
+<div class="table_btn_wrapper">
+<table class="styled-table">
     <thead>
         <tr>
             <th>Materiel</th>
-            <th>Qtt en cour d'utilisation</th>
-            <th>Qtt necessaire pour les futur sessions</th>
-            <th>Qtt Total disponible</th>
+            <th>en cour d'utilisation</th>
+            <th>besoin des future sessions</th>
+            <th>Total disponible</th>
+            <th>supprimer</th>
         </tr>
     </thead>
     <tbody>
@@ -28,13 +31,17 @@
             {% endfor %}
 
         <tr>
-            <td> {{materiel.nom}} </td>
+            <td class="intitule"> <a href="{{path('show_materiel',{'id':materiel.id})}}">{{materiel.nom}}</a> </td>
             <td> {{enCour}} </td>
             <td> {{besoin}} </td>
+            <td> {{materiel.qtt}} </td>
+            <td> <a style="color:red" href="{{path('delete_materiel',{'id':materiel.id}) }}"><i class="fa-solid fa-x"></i></a></td>
         </tr>
 
         {% endfor %}
 
     <tbody>
 </table>
+<a class="addBtn" href="{{path('new_materiel')}}">Ajouter</a>
+</div>
 {% endblock %}

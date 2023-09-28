@@ -3,9 +3,13 @@
 {% block title %}Hello PageAdminController!{% endblock %}
 
 {% block body %}
+Bienvenue , vous etes connecter avec le mail : {{app.user.email}}
+
 <div style="display:flex ; flex-direction:column">
     <a href="{{path('new_session')}}">ajouter une session</a>
     <a href="{{path('new_stagiaire')}}">ajouter un stagiaire</a>
     <a href="{{path('new_materiel')}}">Ajouter un Type de materiel</a>
+    <a href="{{path('new_formation')}}">Ajouter une formation</a>
+    <a href="{{path('new_formateur')}}">Ajouter un formateur</a>
 </div>
 {% endblock %}

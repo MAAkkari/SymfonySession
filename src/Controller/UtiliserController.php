@@ -23,22 +23,28 @@ class UtiliserController extends AbstractController
     #[Route('/utiliser/{id}/augmenter', name: 'augmenter_utiliser')]
     public function augmenter(Utiliser $utiliser,UtiliserRepository $ur , EntityManagerInterface $EntityManager){
         $newqtt=$utiliser->getQtt()+1;
-        $utiliser->setQtt($newqtt);
-        $EntityManager->persist($utiliser);
-        $EntityManager->flush();
+        if($newqtt > $utiliser->getMateriel()->getQtt()){
+            $this->addFlash("error","la Quantité de  ''".$utiliser->getMateriel()->getNom()."'' est insuffisante");
+        }else{
+            $utiliser->setQtt($newqtt);
+            $EntityManager->persist($utiliser);
+            $EntityManager->flush();
+            $this->addFlash("success","ajout d'un ''".$utiliser->getMateriel()->getNom()."'' reussi ");
+        }
         return $this->redirectToRoute('show_session', ['id' => $utiliser->getSession()->getId()]);
     }
+
     #[Route('/utiliser/{id}/diminuer', name: 'diminuer_utiliser')]
     public function diminuer(Utiliser $utiliser,UtiliserRepository $ur , EntityManagerInterface $EntityManager){
         $newqtt=$utiliser->getQtt()-1;
         $idSession=$utiliser->getSession()->getId();
         if ( $newqtt <= 0) { 
             $EntityManager->remove($utiliser); 
-
+            $this->addFlash("success","suppression de ''".$utiliser->getMateriel()->getNom()."'' reussi ");
         } else{
-
             $utiliser->setQtt($newqtt);
             $EntityManager->persist($utiliser);
+            $this->addFlash("success","diminution de ''".$utiliser->getMateriel()->getNom()."'' reussi ");
         }
         $EntityManager->flush();
         return $this->redirectToRoute('show_session', ['id' =>$idSession ]);
@@ -49,6 +55,7 @@ class UtiliserController extends AbstractController
         $idSession=$utiliser->getSession()->getId();
         $EntityManager->remove($utiliser);
         $EntityManager->flush();
+        $this->addFlash("success","suppression du materiel de cette session avec succés");
         return $this->redirectToRoute('show_session', ['id' =>$idSession ]);
     }
 

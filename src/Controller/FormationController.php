@@ -35,7 +35,7 @@ class FormationController extends AbstractController
             $formation = $form->getData(); //on met les info dans l'entité formation crée plus haut  
             $entityManager->persist($formation); // prepare en pdo 
             $entityManager->flush(); // execute en pdo
-
+            $this->addFlash("success","creation/modification de la formation avec succes");
             return $this->redirectToRoute('app_formation');
         }
 
@@ -48,6 +48,7 @@ class FormationController extends AbstractController
     public function delete(Formation $formation , EntityManagerInterface $em){   
         $em->remove($formation);
         $em->flush();
+        $this->addFlash("success","suppression de la formation avec succes");
         return $this->redirectToRoute('app_formation');
     }
 

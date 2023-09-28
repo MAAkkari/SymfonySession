@@ -6,6 +6,9 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <script src="https://kit.fontawesome.com/a0cb91d4d8.js" crossorigin="anonymous"></script>
         <script src="{{ asset('js/alert.js') }}"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% endblock %}
@@ -22,7 +25,7 @@
         {% if errorFlashes is not empty %}
             <h3 class="msg_error">  
                 {% for message in errorFlashes %}
-                {{ message }}
+                <i class="fa-solid fa-bullhorn"></i> {{ message }}
                 {% endfor %} 
             </h3>
         {% endif %}
@@ -30,28 +33,33 @@
         {% if successFlashes is not empty %}
             <h3 class="msg_success">
                 {% for message in successFlashes %}
-                {{ message }}
+                <i class="fa-solid fa-bullhorn"></i> {{ message }}
                 {% endfor %}
             </h3>
         {% endif %}
 
        
-
-        <nav >
-            <ul style="display:flex ; column-gap: 30px">
-                {% if is_granted("ROLE_ADMIN", object = null , field= null ) %}
-                    <li><a href="{{path('app_home')}}">Acceuil</a></li>
-                    <li><a href="{{path('app_session')}}">Sessions</a></li>
-                    <li><a href="{{path('app_stagiaire')}}">Stagiaires</a></li>
-                    <li><a href="{{path('app_formation')}}">formations</a></li>
-                    <li><a href="{{path('app_formateur')}}">formateurs</a></li>
-                    <li><a href="{{path('app_page_admin')}}">pannel Admin</a></li>
-                    <li><a href="{{path('app_register')}}">nouveau compte</a></li>
-                    <li><a href="{{path('app_logout')}}">deconnexion</a></li>
-                    
-                {% endif %}
-            </ul>
-        </nav>
+        <header>
+            <nav >
+                <ul>
+                    {% if is_granted("ROLE_ADMIN", object = null , field= null ) %}
+                        <li><a href="{{path('app_home')}}"><i class="fa-solid fa-house"></i>Accueil</a></li>
+                        <li><a href="{{path('app_session')}}"><i class="fa-solid fa-book"></i>Sessions</a></li>
+                        <li><a href="{{path('app_stagiaire')}}"><i class="fa-solid fa-people-group"></i>Stagiaires</a></li>
+                        <li><a href="{{path('app_formation')}}"><i class="fa-solid fa-school"></i>formations</a></li>
+                        <li><a href="{{path('app_formateur')}}"><i class="fa-solid fa-person-chalkboard"></i>formateurs</a></li>
+                        <li><a href="{{path('app_materiel')}}"><i class="fa-solid fa-boxes-stacked"></i>materiel</a></li>
+                        <li><a href="{{path('app_page_admin')}}"><i class="fa-solid fa-sign-hanging"></i>pannel Admin</a></li>
+                        
+                        <div class="right_nav">
+                            <li><a href="{{path('app_register')}}"><i class="fa-solid fa-user-pen"></i>nouveau compte</a></li>
+                            <li><a href="{{path('app_logout')}}"><i class="fa-solid fa-right-from-bracket"></i>deconnexion</a></li>
+                        </div>
+                        
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
         {% block body %}{% endblock %}
     </body>
 </html>

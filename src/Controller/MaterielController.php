@@ -36,7 +36,7 @@ class MaterielController extends AbstractController
             
             $entityManager->persist($materiel); // prepare en pdo 
             $entityManager->flush(); // execute en pdo
-
+            $this->addFlash("success","creation du type de materiel avec succés");
             return $this->redirectToRoute('app_materiel');
         }
 
@@ -50,7 +50,15 @@ class MaterielController extends AbstractController
     public function delete(materiel $materiel , EntityManagerInterface $em){   
         $em->remove($materiel);
         $em->flush();
+        $this->addFlash("success","suppression du materiel avec succes");
         return $this->redirectToRoute('app_materiel');
 
+    }
+    #[Route('/materiel/{id}', name: 'show_materiel')]
+    public function show(Materiel $materiel , materielRepository $mr): Response
+    {    
+        return $this->render('materiel/show.html.twig', [
+            'materiel'=>$mr->find($materiel->getId()),
+        ]);
     }
 }

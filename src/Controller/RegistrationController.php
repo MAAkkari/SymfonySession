@@ -44,7 +44,7 @@ class RegistrationController extends AbstractController
                 $request
             );
         }
-
+        $this->addFlash("success","inscription reussi");
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

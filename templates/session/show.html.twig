@@ -11,83 +11,165 @@
 
 
 
-<h1>Details de la Session : {{session.Intitule}}</h1>
-<h2>Information</h2>
-<p>Formateur : {{session.formateur}} </p>
-<p>Formation : {{session.formation}} </p>
+<h1 class="subtitle" >Details de la Session : {{session.Intitule}}</h1>
+<div class="info_session">
 
-{% if months>=1 %}
-    <p>durée : {{months|round(0, 'floor')}} mois et {{ days|round(0, 'floor')}} jours </p>
-{% else %}
-    <p>durée : {{ days|round(0, 'floor')}} jours </p>
-{% endif %}
+    <table class="styled-table center">
+        <thead>
+            <tr>
+                <th>Informations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Formateur : <a href="{{path('show_formateur',{'id':session.formateur.id})}}"> {{session.formateur}} </a></td></tr>
+            <tr><td>Formation : <a href="{{path('show_formation',{'id':session.formation.id})}}"> {{session.formation}}</a></td></tr>
 
-<h2>programme</h2>
+            {% if months>=1 %}
+            <tr><td> durée : {{months|round(0, 'floor')}} mois et {{ days|round(0, 'floor')}} jours </td></tr>
+            {% else %}
+            <tr><td> durée : {{ days|round(0, 'floor')}} jours </td></tr>
+            {% endif %}
+            <tr><td>  places : {{session.stagiaires | length}} / {{session.places}}</td></tr>
 
-<table>
+        <tbody>
+    </table>
+
+
+</div>
+
+<h2 class="subtitle" >Modules</h2>
+<div class="tab_wrapper">
+    <table class="styled-table tab">
+        <thead>
+            <tr>
+                <th>Module</th>
+                <th>categorie</th>
+                <th>Nb jours</th>
+                <th>supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set temps = 0 %}
+            {% for programme in programmes %}
+            {% set temps = temps + programme.jours %}
+            <tr>
+                <td class="intitule">{{programme.module.nom}} </td>
+                <td>{{programme.module.categorie.nom}} </td>
+                <td>{{programme.jours}} jours</td>
+                <td><a style="color:rgb(222, 74, 74)" href="{{path('delete_programme',{'id':programme.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="2">Durée totale de formation </td>
+                <td> {{temps}} jours</td>
+                <td></td>
+            </tr>
+        <tbody>
+    </table>
+
+    <table class="styled-table tab">
+        <thead>
+            <tr>
+                <th>Module</th>
+                <th>categorie</th>
+                <th>Nb jours</th>
+                <th>Ajouter</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for module in NonProgrammes %}
+            <tr>
+                <td class="intitule">{{ module.nom }}</td>
+                <td>{{ module.categorie.nom }}</td>
+                <td colspan="1">
+                    <form action="{{ path('add_module', {'id':session.id, 'module':module.id}) }}" method="post">
+                        <input class="duree" type="number" name="duree" value="1" min="1"> 
+                </td>
+                <td>
+                        <button class="square_btn" type="submit" name="submit" ><i class="fa-regular fa-square-plus"></i> </button>
+                    </form>
+                </td>
+                
+            </tr>
+            {% endfor %}
+
+        <tbody>
+    </table>
+</div>
+<h2 class="subtitle" >Stagiaires</h2>
+<div class="tab_wrapper">
+    <table class="styled-table tab">
+        <thead>
+            <tr>
+                <th>Stagiaires inscrits</th>
+                <th>Désinscrire</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            {% for stagiaire in session.stagiaires %}
+            <tr>
+            <td><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.nom}} {{stagiaire.prenom}} </a> </td> 
+            <td><a style ='color:red'href="{{ path('removeSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-solid fa-x"></i></a></p></td>
+            </tr>
+            {% endfor %}
+        <tbody>
+    </table>
+
+    <table class="styled-table tab">
+        <thead>
+            <tr>
+                <th>Stagiaires non inscrits</th>
+                <th>Inscrire</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            {% for stagiaire in stagiaires %}
+            <tr>
+            <td><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.nom}} {{stagiaire.prenom}} </a> </td> 
+            <td><a class="square_btn" href="{{ path('addSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-regular fa-square-plus"></i></a></td>
+            </tr>
+            {% endfor %}
+        <tbody>
+    </table>
+</div>
+
+
+<h2 class="subtitle" >Matériel</h2>
+
+<table class="styled-table center tab_materiel">
     <thead>
         <tr>
-            <th>Module</th>
-            <th>categorie</th>
-            <th>Nb jours</th>
+            <th>Type</th>
+            <th>Qtt</th>
             <th>supprimer</th>
-
         </tr>
     </thead>
     <tbody>
-        {% for programme in programmes %}
-
-        <tr>
-            <td>{{programme.module.nom}} </td>
-            <td>{{programme.module.categorie.nom}} </td>
-            <td><p>{{programme.jours}} jours</p></td>
-            <td><a href="{{path('delete_programme',{'id':programme.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
-        </tr>
-
+        {% for utiliser in session.utilisers %}
+            <tr>
+                <td class="intitule">{{utiliser.materiel}}</td>
+                <td> <a href="{{ path('diminuer_utiliser',{'id':utiliser.id}) }}"><i class="fa-solid fa-minus"></i></a> {{utiliser.qtt}}  <a href="{{ path('augmenter_utiliser',{'id':utiliser.id}) }}">+</a></td>
+                <td><a style="color:rgb(206, 80, 80)" href="{{path('remove_utiliser',{'id':utiliser.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
+            </tr>
         {% endfor %}
-        
+        {{ form_start(formAddUtiliser) }}
+    
+        <tr>
+            <td> {{form_row(formAddUtiliser.materiel)}}</td>
+            <td> {{form_row(formAddUtiliser.qtt)}}</td>
+            <td>{{form_row(formAddUtiliser.Valider)}}</td>
+            
+        </tr>
+        {{form_end(formAddUtiliser) }}
     <tbody>
 </table>
 
 
 
 
-<h2>Programmes non Présent dans cette session</h2>
 
-{% for module in NonProgrammes %}
-        {{ module.nom }}
-        <form action="{{ path('add_module', {'id':session.id, 'module':module.id}) }}" method="post">
-            <input class="duree" type="number" name="duree" value="1" min="1"> 
-            <input type="submit" name="submit" >
-        </form><br>
-{% endfor %}
-
-
-<a href="{{path('new_programme',{'id':session.id})}}">ajouter un Module</a>
-<h2>participants</h2>
-{% for stagiaire in session.stagiaires %}
-   <p><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.prenom}} {{stagiaire.nom}}</a>  <a style ='color:red'href="{{ path('removeSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}">x</a></p> 
-{% endfor %}
-
-<h2>Stagiaires non participants</h2>
-{% for stagiaire in stagiaires %}
-
-    <p><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.prenom}} {{stagiaire.nom}}</a>  <a href="{{ path('addSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}">+</a></p> 
-
-{% endfor %}
-
-<h2>Materiel Nécessaire</h2>
-{% for utiliser in session.utilisers %}
-    <p> <a href="{{ path('diminuer_utiliser',{'id':utiliser.id}) }}">-</a>  {{utiliser.materiel}} {{utiliser.qtt}} <a href="{{ path('augmenter_utiliser',{'id':utiliser.id}) }}">+</a>  <a href="{{path('remove_utiliser',{'id':utiliser.id} )}}"><i class="fa-solid fa-trash"></i></a></p>
-{% endfor %}
-
-{{ form_start(formAddUtiliser) }}
-    
-        {{form_row(formAddUtiliser.materiel)}}
-        {{form_row(formAddUtiliser.qtt)}}
-        {{form_row(formAddUtiliser.Valider)}}
-        
-{{form_end(formAddUtiliser) }}
 
 
 {% endblock %}

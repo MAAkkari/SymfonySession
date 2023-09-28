@@ -3,49 +3,49 @@
 {% block title %}liste des formateurs{% endblock %}
 
 {% block body %}
-<h1>Liste des formateurs</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Prenom</th>
-            <th>Nom</th>
-            <th>Nb formations total</th>
-            <th>Nb formations en cour</th>
-            <th>info</th>
-            <th>edit</th>
-            <th>supprimer</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% set currentDate = "now"|date('Y-m-d') %}
-        {% for formateur in formateurs %}
+<h1 class="subtitle">Liste des formateurs</h1>
+<div  class="table_btn_wrapper">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Nom Prenom</th>
+                <th>a encadré</th>
+                <th>Encardre</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set currentDate = "now"|date('Y-m-d') %}
+            {% for formateur in formateurs %}
 
-        {% set x = 0 %}
-        {% for session in formateur.sessions %}
-    
+            {% set x = 0 %}
+            {% for session in formateur.sessions %}
         
-            {% if session.fin|date('Y-m-d') >= currentDate|date('Y-m-d') and session.debut|date('Y-m-d') <= currentDate|date('Y-m-d') %}
+            
+                {% if session.fin|date('Y-m-d') >= currentDate|date('Y-m-d') and session.debut|date('Y-m-d') <= currentDate|date('Y-m-d') %}
 
-                {% set x = x + 1 %}
+                    {% set x = x + 1 %}
+                    
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td class="intitule"><a href="{{path('show_formateur',{'id':formateur.id})}}">{{formateur.nom}} {{formateur.prenom}}</a> </td>
                 
-            {% endif %}
-        {% endfor %}
-        <tr>
-            <td>{{formateur.prenom}} </td>
-            <td>{{formateur.nom}}</td>
-            <td>{{formateur.sessions|length}}</td>
-            <td>{{x}}</td>
-           
-            <td><a style="color:green" href="{{path('show_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-circle-info"></i></a></td>
-            <td><a style="color:orange" href="{{path('edit_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-            <td> <a style="color:red" href="{{path('delete_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-x"></i></a></td>
-        </tr>
-       
-        {% endfor %}
-    <tbody>
-</table>
-<br>
-<a style="color:green" href="">Ajouter un formateur</a>
+                <td>{{formateur.sessions|length}}</td>
+                
+                <td>{{x}}</td>
+
+                <td><a style="color:orange" href="{{path('edit_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a style="color:red" href="{{path('delete_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-x"></i></a></td>
+               
+            </tr>
+        
+            {% endfor %}
+        <tbody>
+    </table>
+    <br>
+    <a class="addBtn" href="{{path('new_formateur')}}">Ajouter</a>
+</div>
 
 
 {% endblock %}
