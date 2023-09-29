@@ -6,6 +6,7 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <script src="https://kit.fontawesome.com/a0cb91d4d8.js" crossorigin="anonymous"></script>
         <script src="{{ asset('js/alert.js') }}"></script>
+        <script src="{{ asset('js/darkmode.js') }}"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
@@ -16,7 +17,7 @@
         {% block javascripts %}
         {% endblock %}
     </head>
-    <body>
+    <body class="preload">
         
         {% set errorFlashes = app.flashes('error') %}
         {% set successFlashes = app.flashes('success') %}
@@ -55,6 +56,7 @@
                             <li><a href="{{path('app_register')}}"><i class="fa-solid fa-user-pen"></i>nouveau compte</a></li>
                             <li><a href="{{path('app_logout')}}"><i class="fa-solid fa-right-from-bracket"></i>deconnexion</a></li>
                         </div>
+                        <button class="dark"><i class="fa-solid fa-moon"></i></button>
                         
                     {% endif %}
                 </ul>

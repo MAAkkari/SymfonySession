@@ -4,9 +4,9 @@
 
 {% block body %}
 
-    <h1>Ajouter un Type de materiel</h1>
+    <h1 class="subtitle">Ajouter un Type de materiel</h1>
     
-    {{ form_start(formAddMateriel) }}   
+    {{ form_start(formAddMateriel, {'attr': {'class': 'form_session'}}) }}
         {{form_row(formAddMateriel.nom)}} 
         {{form_row(formAddMateriel.qtt)}}
         {{form_row(formAddMateriel.Valider)}}

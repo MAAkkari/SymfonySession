@@ -37,14 +37,14 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
-
+            $this->addFlash("success","inscription reussi");
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
         }
-        $this->addFlash("success","inscription reussi");
+       
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

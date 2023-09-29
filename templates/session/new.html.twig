@@ -4,19 +4,18 @@
 
 {% block body %}
 
-    <h1>Ajouter une session</h1>
+    <h1 class="subtitle">Ajouter une session</h1>
     
-    {{ form_start(formAddSession) }}
+    {{ form_start(formAddSession, {'attr': {'class': 'form_session'}}) }}
     
-        {{form_row(formAddSession.formation)}}
         {{form_row(formAddSession.intitule)}}
+        {{form_row(formAddSession.formation)}}
         {{form_row(formAddSession.formateur)}}
-        {{form_row(formAddSession.debut)}}
-        {{form_row(formAddSession.fin)}}
+        <div class="inline">{{form_row(formAddSession.debut)}} </div>
+        <div class="inline">{{form_row(formAddSession.fin)}}</div>
         {{form_row(formAddSession.Places)}}
-        {{form_row(formAddSession.stagiaires)}}
-        
+        <div class="col-sm2"> {{form_row(formAddSession.stagiaires)}}</div>
+    
     {{form_end(formAddSession) }}
     
-
 {% endblock %}

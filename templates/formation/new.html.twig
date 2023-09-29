@@ -4,9 +4,9 @@
 
 {% block body %}
 
-    <h1>Ajouter une Formation</h1>
+    <h1 class="subtitle">Ajouter une Formation</h1>
     
-    {{ form_start(FormAddFormation) }}
+    {{ form_start(FormAddFormation, {'attr': {'class': 'form_session'}}) }}
     
         {{form_row(FormAddFormation.nom)}}
    

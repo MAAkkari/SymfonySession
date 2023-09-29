@@ -5,36 +5,32 @@
 
 {% block body %}
 
-<h1>liste des sessions encadrés par "{{formateur.nom}} {{formateur.prenom}}"</h1>
+<h1 class="subtitle">liste des sessions encadrés par "{{formateur.nom}} {{formateur.prenom}}"</h1>
 
-<table>
+<table class="styled-table center">
     <thead>
         <tr>
             <th>Intitulé Session</th>
             <th>Date de début</th>
             <th>Date de fin</th>
-            <th>Nb places théoriques</th>
-            <th>Nb places réservées</th>
-            <th>Nb places restantes</th>
-            <th>Détails programme</th>
-            <th>modifier</th>
-            <th>Supprimer</th>
+            <th>Inscrits</th>
+            <th>Actions</th>
+        
         </tr>
     </thead>
     <tbody>
         {% for session in formateur.sessions %}
         <tr>
-            <td>{{session.Intitule}} </td>
+            <td class="intitule"><a href=" {{path('show_session',{'id':session.id}) }} ">{{session.Intitule}} </a></td>
             <td>{{session.debut|date('d-m-Y')}}</td>
             <td>{{session.fin|date('d-m-Y')}}</td>
-            <td>{{session.places}}</td>
-            <td>{{session.stagiaires | length}}</td>
-            <td>{{session.places - (session.stagiaires | length)}}</td>
-            <td><a style="color:green" href=" {{path('show_session',{'id':session.id}) }} "><i class="fa-solid fa-circle-info"></i></a></td>
-            <td><a style="color:orange" href="{{path('edit_session',{'id':session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a></td>
-            <td> <a style="color:red" href="{{path('delete_session',{'id':session.id}) }}"><i class="fa-solid fa-x"></i></a></td>
+            <td>{{session.stagiaires | length}} / {{session.places}}</td>
+            
+        
+            <td><a style="color:orange" href="{{path('edit_session',{'id':session.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+            <a style="color:red" href="{{path('delete_session',{'id':session.id}) }}"><i class="fa-solid fa-x"></i></a></td>
         </tr>
-       
+    
         {% endfor %}
     <tbody>
 </table>

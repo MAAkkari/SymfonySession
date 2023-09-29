@@ -6,6 +6,7 @@ body{
     font-family: 'Roboto', sans-serif;
     margin-top: 90px;
     background: rgb(229, 227, 227);
+    transition: all 0.5s ease 0.2s;
 }
 
 .styled-table {
@@ -19,7 +20,6 @@ body{
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0,0,0,0.15);
     font-family:inherit;
-    
     
 }
 .intitule{
@@ -81,7 +81,7 @@ header {
     align-items: center;
     box-shadow: 0 0 25px 0 rgb(94, 92, 92);
     font-size: 1.15rem;
-    
+    transition: all 0.5s ease 0.2s;
     font-weight: bolder;
 
 }
@@ -125,10 +125,11 @@ a:hover{
     justify-content: center;
     column-gap: 10px;
     margin-top: 10px;
-    background-color: rgb(217, 213, 213);
+    background-color: rgb(218, 212, 212);
     width: fit-content;
     margin: 10px auto;
     border-radius: 5px;
+    transition: all 0.5s ease 0.2s;
 }
 .tab{
     align-self: flex-start;
@@ -156,7 +157,7 @@ td label{
 .tab_materiel{
     margin-bottom: 150px;
 }
-.tab_materiel td input,select{
+.tab_materiel td input, .tab_materiel td select{
     height:25px;
     border-radius: 3px;
     text-align: center;
@@ -177,4 +178,154 @@ td label{
     font-weight: bolder;
     color: #009879;
     cursor: pointer;
+}
+
+.form_session label{
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+.form_session div{
+    margin-top: 10px;
+}
+
+.col-sm2 div{
+    display:flex;
+    align-items: start;
+}
+.form_session select, .form_session input{
+    padding: 3px 5px;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: rgba(179, 176, 176, 0.397);
+    border-radius: 5px;
+    border: none;
+}
+.form_session input{
+    height: 25px;
+}
+.inline div{
+    display: inline;
+}
+#session_Valider,#stagiaire_Valider,#formation_Valider,#formateur_Valider,#materiel_Valider{ background-color: transparent;
+    border:none;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: #dde3e2;
+    cursor: pointer;
+    padding:8px 12px; 
+    background-color: rgb(35, 114, 3);
+    border-radius: 5px;
+    border: none;
+   
+}
+.form_session{
+    padding:30px;
+    background-color: rgba(203, 203, 203, 0.374);
+    border: none;
+    border-radius: 10px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    margin:0 auto;
+    align-items: center;
+    row-gap: 7px;
+}
+
+
+.btn{ background-color: transparent;
+    border:none;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    color: #dde3e2;
+    cursor: pointer;
+    padding:8px 12px; 
+    background-color: rgb(35, 114, 3);
+    border-radius: 5px;
+    border: none;
+    margin-top:10px ;
+   
+}
+.msg_error{
+    Color:rgb(164, 12, 12);
+    background-color: rgb(234, 193, 193);
+    padding:20px;
+    margin:0
+}
+.msg_success{
+    color:rgb(9, 149, 9);
+    background-color: rgb(193, 234, 193);
+    padding:20px;
+    margin:0
+}
+
+
+
+
+
+/* -------------------darkmode -----------------------*/
+.dark{
+    background: white;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 100px;
+    padding:7px 5px 7px 8px;
+    transition: all 0.5s ease 0.2s;
+
+}
+body.darkmode{
+    background-color: rgb(46, 46, 46);
+}
+header.darkmode{
+    background-color: #057962;
+}
+.darkmode{
+    transition: all 0.5s ease;
+}
+a.darkmode{
+    color:rgb(255, 253, 253);
+}
+button.darkmode{
+    background-color: black;
+    color:white;
+}
+h1.darkmode,h2.darkmode,h3.darkmode{
+    color:rgb(204, 202, 202);
+}
+h2,h1,h3{
+    transition: all 0.5s ease 0.2s;
+}
+tr.darkmode:nth-of-type(even) {
+    background-color: #292727 !important;
+}
+tr.darkmode:nth-of-type(odd) {
+    background-color: #474545 !important;
+}
+tr.darkmode{
+    color:rgb(196, 193, 193);
+}
+tr.darkmode a{
+    color:rgb(224, 218, 218);
+}
+tr{
+    transition: all 0.5s ease 0.2s;
+}
+tr.darkmode i:first-child{
+    color:rgb(212, 206, 206);
+}
+.tab_wrapper.darkmode{
+    background-color:#3b3a3a !important;
+}
+th.darkmode{
+    background-color:#036e59
+}
+label.darkmode{
+    color:rgb(230, 224, 224);
+}
+label{
+    transition: all 0.5s ease 0.2s;
+}
+.preload{
+    display: none;
 }

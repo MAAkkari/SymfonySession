@@ -4,9 +4,9 @@
 
 {% block body %}
 
-    <h1>Ajouter un Formateur</h1>
+    <h1 class="subtitle">Ajouter un Formateur</h1>
     
-    {{ form_start(FormAddFormateur) }}
+    {{ form_start(FormAddFormateur, {'attr': {'class': 'form_session'}}) }}
     
         {{form_row(FormAddFormateur.nom)}}
         {{form_row(FormAddFormateur.prenom)}}
