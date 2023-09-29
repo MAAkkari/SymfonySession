@@ -21,8 +21,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr><td>Formateur : <a href="{{path('show_formateur',{'id':session.formateur.id})}}"> {{session.formateur}} </a></td></tr>
-            <tr><td>Formation : <a href="{{path('show_formation',{'id':session.formation.id})}}"> {{session.formation}}</a></td></tr>
+            <tr><td>Formateur : <a title="info du formateur" href="{{path('show_formateur',{'id':session.formateur.id})}}"> {{session.formateur}} </a></td></tr>
+            <tr><td>Formation : <a title="info de la formation" href="{{path('show_formation',{'id':session.formation.id})}}"> {{session.formation}}</a></td></tr>
 
             {% if months>=1 %}
             <tr><td> durée : {{months|round(0, 'floor')}} mois et {{ days|round(0, 'floor')}} jours </td></tr>
@@ -56,7 +56,7 @@
                 <td class="intitule">{{programme.module.nom}} </td>
                 <td>{{programme.module.categorie.nom}} </td>
                 <td>{{programme.jours}} jours</td>
-                <td><a style="color:rgb(222, 74, 74)" href="{{path('delete_programme',{'id':programme.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
+                <td><a title="enlever ce module" style="color:rgb(222, 74, 74)" href="{{path('delete_programme',{'id':programme.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
             </tr>
             {% endfor %}
             <tr>
@@ -109,8 +109,8 @@
         <tbody>
             {% for stagiaire in session.stagiaires %}
             <tr>
-            <td><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.nom}} {{stagiaire.prenom}} </a> </td> 
-            <td><a style ='color:red'href="{{ path('removeSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-solid fa-x"></i></a></p></td>
+            <td><a title="info du stagiaire" href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.nom}} {{stagiaire.prenom}} </a> </td> 
+            <td><a title="désinscrire ce stagiaire" style ='color:red'href="{{ path('removeSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-solid fa-x"></i></a></p></td>
             </tr>
             {% endfor %}
         <tbody>
@@ -127,8 +127,8 @@
         <tbody>
             {% for stagiaire in stagiaires %}
             <tr>
-            <td><a href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.nom}} {{stagiaire.prenom}} </a> </td> 
-            <td><a class="square_btn" href="{{ path('addSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-regular fa-square-plus"></i></a></td>
+            <td><a title="info du stagiaire" href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.nom}} {{stagiaire.prenom}} </a> </td> 
+            <td><a title="inscrire ce stagiaire" class="square_btn" href="{{ path('addSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-regular fa-square-plus"></i></a></td>
             </tr>
             {% endfor %}
         <tbody>
@@ -150,8 +150,8 @@
         {% for utiliser in session.utilisers %}
             <tr>
                 <td class="intitule">{{utiliser.materiel}}</td>
-                <td> <a href="{{ path('diminuer_utiliser',{'id':utiliser.id}) }}"><i class="fa-solid fa-minus"></i></a> {{utiliser.qtt}}  <a href="{{ path('augmenter_utiliser',{'id':utiliser.id}) }}">+</a></td>
-                <td><a style="color:rgb(206, 80, 80)" href="{{path('remove_utiliser',{'id':utiliser.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
+                <td><a title="diminuer" href="{{ path('diminuer_utiliser',{'id':utiliser.id}) }}"><i class="fa-solid fa-minus"></i></a> {{utiliser.qtt}}  <a title="augmenter" href="{{ path('augmenter_utiliser',{'id':utiliser.id}) }}">+</a></td>
+                <td><a title="supprimer ce materiel" style="color:rgb(206, 80, 80)" href="{{path('remove_utiliser',{'id':utiliser.id} )}}"><i class="fa-solid fa-trash"></i></a></td>
             </tr>
         {% endfor %}
         {{ form_start(formAddUtiliser) }}
@@ -165,11 +165,5 @@
         {{form_end(formAddUtiliser) }}
     <tbody>
 </table>
-
-
-
-
-
-
 
 {% endblock %}

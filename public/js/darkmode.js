@@ -15,10 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const wrapper = document.querySelectorAll('.tab_wrapper');
     const trs = document.querySelectorAll('th');
     const label=document.querySelectorAll('label');
-//check si l'item darkmode est dans le localstorage
-body.classList.remove('preload');
+
+    body.classList.remove('preload');
+    //check si l'item darkmode est dans le localstorage
     if (localStorage.getItem('darkMode') === 'true') {{
-        body.classList.add('darkmode'); 
+        body.classList.add('darkmode');
     }
         const changes = [...label,...trs,dark_btn,body, head , nav, , ...header,...links, ...formulaire, ...formInput, ...table,...rightLinks, ...lists,...wrapper, ...labels, ...h3];
         changes.forEach(function(elements) {

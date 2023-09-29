@@ -29,14 +29,14 @@
                 {% endif %}
             {% endfor %}
             <tr>
-                <td class="intitule"><a href="{{path('show_formateur',{'id':formateur.id})}}">{{formateur.nom}} {{formateur.prenom}}</a> </td>
+                <td class="intitule"><a title="info formateur" href="{{path('show_formateur',{'id':formateur.id})}}">{{formateur.nom}} {{formateur.prenom}}</a> </td>
                 
                 <td>{{formateur.sessions|length}}</td>
                 
                 <td>{{x}}</td>
 
-                <td><a style="color:orange" href="{{path('edit_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-pen-to-square"></i></a>
-                    <a style="color:red" href="{{path('delete_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-x"></i></a></td>
+                <td><a title="modifier ce formateur" style="color:orange" href="{{path('edit_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a title="supprimer ce formateur" style="color:red" href="{{path('delete_formateur',{'id':formateur.id})}}"><i class="fa-solid fa-x"></i></a></td>
                
             </tr>
         
@@ -44,7 +44,7 @@
         <tbody>
     </table>
     <br>
-    <a class="addBtn" href="{{path('new_formateur')}}">Ajouter</a>
+    <a title="ajouter un formateur" class="addBtn" href="{{path('new_formateur')}}">Ajouter</a>
 </div>
 
 

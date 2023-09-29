@@ -24,13 +24,17 @@
         {% for stagiaire in stagiaires %}
 
         <tr>
-            <td  class="intitule"> <a  href="{{path('show_stagiaire',{'id':stagiaire.id})}}">{{stagiaire.nom}} {{stagiaire.prenom}}</a></td>
+            <td  class="intitule"> 
+                <a title="info du stagiaire"  href="{{path('show_stagiaire',{'id':stagiaire.id})}}">
+                    {{stagiaire.nom}} {{stagiaire.prenom}}
+                </a>
+            </td>
              
             <td> {{stagiaire.ville}} </td>
             <td> {{stagiaire.telephone}} </td>
             <td>{{stagiaire.sessions | length}}</td>
-            <td><a style="color:orange" href="{{path('edit_stagiaire',{'id':stagiaire.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a style="color:red" href="{{path('delete_stagiaire',{'id':stagiaire.id}) }}"><i class="fa-solid fa-x"></i></a></td>
+            <td><a title="modifier ce stagiaire" style="color:orange" href="{{path('edit_stagiaire',{'id':stagiaire.id}) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a title="supprimer ce stagiare" style="color:red" href="{{path('delete_stagiaire',{'id':stagiaire.id}) }}"><i class="fa-solid fa-x"></i></a></td>
             
         </tr>
 
@@ -39,7 +43,7 @@
     <tbody>
 </table>
     <br>
-    <a  class="addBtn" href="{{ path('new_stagiaire') }}">Ajouter</a>
+    <a title="ajouter un stagiaire"  class="addBtn" href="{{ path('new_stagiaire') }}">Ajouter</a>
 </div>
 
 {% endblock %}

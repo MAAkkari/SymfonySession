@@ -148,8 +148,6 @@ a:hover{
     font-size: 1.5rem;
     color: #009879;
     cursor: pointer;
-
-
 }
 td label{
     margin-right: 5px;
@@ -259,10 +257,6 @@ td label{
     padding:20px;
     margin:0
 }
-
-
-
-
 
 /* -------------------darkmode -----------------------*/
 .dark{

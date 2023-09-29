@@ -14,7 +14,7 @@ class ProgrammeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('jours')
+            ->add('jours',IntegerType::class)
             ->add('module',IntegerType::class)
             ->add('Valider', SubmitType::class)
         ;
