@@ -110,7 +110,7 @@
             {% for stagiaire in session.stagiaires %}
             <tr>
             <td><a title="info du stagiaire" href="{{ path('show_stagiaire',{'id':stagiaire.id}) }}">{{stagiaire.nom}} {{stagiaire.prenom}} </a> </td> 
-            <td><a title="désinscrire ce stagiaire" style ='color:red'href="{{ path('removeSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-solid fa-x"></i></a></p></td>
+            <td><a title="désinscrire ce stagiaire" style ='color:red'href="{{ path('removeSession_stagiaire', {'id1': stagiaire.id, 'id2': session.id}) }}"><i class="fa-solid fa-x"></i></a></td>
             </tr>
             {% endfor %}
         <tbody>

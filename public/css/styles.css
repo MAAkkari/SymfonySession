@@ -33,9 +33,12 @@ body{
     color: #ffffff;
     text-align: left;
 }
+th{transition: all 0.5s ease 0.2s;}
+i{transition: all 0.5s ease ;}
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
+    
     
 }
 .styled-table tbody tr {
@@ -272,7 +275,7 @@ body.darkmode{
     background-color: rgb(46, 46, 46);
 }
 header.darkmode{
-    background-color: #057962;
+    background-color: #056b57;
 }
 .darkmode{
     transition: all 0.5s ease;
@@ -298,10 +301,13 @@ tr.darkmode:nth-of-type(odd) {
 }
 tr.darkmode{
     color:rgb(196, 193, 193);
+    border-bottom: 1px solid #777575 !important;
 }
+
 tr.darkmode a{
     color:rgb(224, 218, 218);
 }
+
 tr{
     transition: all 0.5s ease 0.2s;
 }
@@ -312,7 +318,8 @@ tr.darkmode i:first-child{
     background-color:#3b3a3a !important;
 }
 th.darkmode{
-    background-color:#036e59
+    background-color:#045b4a;
+    
 }
 label.darkmode{
     color:rgb(230, 224, 224);
@@ -323,3 +330,4 @@ label{
 .preload{
     display: none;
 }
+
