@@ -49,10 +49,11 @@
         {% endif %}
 
        
-        <header>
-            <nav >
-                <ul>
-                    {% if is_granted("ROLE_ADMIN", object = null , field= null ) %}
+        <header>  
+            {% if is_granted("ROLE_ADMIN", object = null , field= null ) %}
+            <nav class="navbar_desktop">
+                <ul >
+                  
                         <li><a title="Accueil" href="{{path('app_home')}}"><i class="fa-solid fa-house"></i>Accueil</a></li>
                         <li><a title="liste sessions" href="{{path('app_session')}}"><i class="fa-solid fa-book"></i>Sessions</a></li>
                         <li><a title="liste stagiaires" href="{{path('app_stagiaire')}}"><i class="fa-solid fa-people-group"></i>Stagiaires</a></li>
@@ -67,10 +68,66 @@
                         </div>
                         <button class="dark"><i class="fa-solid fa-moon"></i></button>
                         
-                    {% endif %}
+                    
                 </ul>
             </nav>
+            <nav class="navbar_mobile">
+                
+                <ul class="mobile_ul">
+                    <li><a title="Accueil" href="{{path('app_home')}}"><i class="fa-solid fa-house"></i>Accueil</a></li>
+                    <li><a title="liste sessions" href="{{path('app_session')}}"><i class="fa-solid fa-book"></i>Sessions</a></li>
+                    <li><a title="liste stagiaires" href="{{path('app_stagiaire')}}"><i class="fa-solid fa-people-group"></i>Stagiaires</a></li>
+                    <li><a title="liste formations" href="{{path('app_formation')}}"><i class="fa-solid fa-school"></i>Formations</a></li>
+                    <li><a title="liste formateurs" href="{{path('app_formateur')}}"><i class="fa-solid fa-person-chalkboard"></i>Formateurs</a></li>
+                    <li><a title="liste materiel" href="{{path('app_materiel')}}"><i class="fa-solid fa-boxes-stacked"></i>Materiel</a></li> 
+                    <button id="burger_btn" class="normal"><i class="fa-solid fa-arrow-left"></i></button>
+                </ul>
+                <ul id="burger-menu" class="initial">
+                    
+                        <li><a title="crée nouveau compte" href="{{path('app_register')}}"><i class="fa-solid fa-user-pen"></i>Nouveau compte</a></li>
+                        <li><a title="se deconnecter" href="{{path('app_logout')}}"><i class="fa-solid fa-right-from-bracket"></i>Déconnexion</a></li>
+                        <li><a title="panneau d'administration" href="{{path('app_page_admin')}}"><i class="fa-solid fa-sign-hanging"></i>Pannel Admin</a></li>
+                        <button class="dark"><i class="fa-solid fa-moon"></i></button>
+                </ul>
+            </nav>
+            {% endif %}
         </header>
+        <div class="overlay"></div>
+        
+        <script>
+            document.getElementById("burger_btn").addEventListener("click", function(event) {
+            event.stopPropagation();
+            const overlay = document.querySelector(".overlay");
+            var burgerMenu = document.getElementById("burger-menu");
+            if(document.getElementById("burger-menu").classList.contains("initial")) {
+            burgerMenu.classList.toggle("open");
+            burgerMenu.classList.remove("initial");
+            document.getElementById("burger_btn").classList.toggle("right");
+            document.getElementById("burger_btn").classList.remove("normal");
+            overlay.classList.add("active-overlay");
+            }
+            else if (document.getElementById("burger-menu").classList.contains("open")) {
+            burgerMenu.classList.remove("open");
+            burgerMenu.classList.add("close");
+            document.getElementById("burger_btn").classList.remove("right");
+            document.getElementById("burger_btn").classList.add("left");
+            overlay.classList.remove("active-overlay");
+            }
+            else{
+            burgerMenu.classList.remove("close");
+            burgerMenu.classList.add("open");
+            document.getElementById("burger_btn").classList.remove("left");
+            document.getElementById("burger_btn").classList.add("right");
+            overlay.classList.add("active-overlay");
+            }
+            overlay.addEventListener("click", () => {
+                burgerMenu.classList.remove("open");
+            burgerMenu.classList.add("close");
+          overlay.classList.remove("active-overlay");
+        });
+            });
+        </script>
+
         {% block body %}{% endblock %}
     </body>
 </html>
